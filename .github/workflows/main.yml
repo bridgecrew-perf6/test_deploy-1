@@ -1,19 +1,14 @@
-name: Deploy
-
 on:
-  push:
-    branches:
-      - main
+  issues:
+    types:
+      - opened
 
 jobs:
-  deploy:
+  label_issue:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      # Setup key
-      - run: set -eu
-      - run: mkdir "$HOME/.ssh"
-      - run: echo "${{ secrets.SECRET_NAME }}" > "$HOME/.ssh/SECRET_NAME"
-      - run: chmod 600 "$HOME/.ssh/SECRET_NAME"
-      # Deploy
-      - run: rsync -e "ssh -p 20022 -i $HOME/.ssh/SECRET_NAME -o StrictHostKeyChecking=no" --archive --compress --delete . gretyll@g107035.hostde32.fornex.host:/home/g107035/public_html/gretyll.io
+      - env:
+          GITHUB_TOKEN: ${{ secrets.SECRET_NAME }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+        run: |
+          gh issue edit $ISSUE_URL --add-label "triage"
