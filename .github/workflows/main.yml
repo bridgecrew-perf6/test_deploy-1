@@ -1,4 +1,4 @@
-name: Deployment
+name: Deploy
 
 on:
   push:
@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
-      - name: deployment
       - uses: actions/checkout@v2
       # Setup key
       - run: set -eu
@@ -18,5 +17,5 @@ jobs:
       - run: echo "${{ secrets.SECRET_NAME }}" > "$HOME/.ssh/SECRET_NAME"
       - run: chmod 600 "$HOME/.ssh/SECRET_NAME"
       # Deploy
-      - run: cd app && rsync -e "ssh -p 20022 -i $HOME/.ssh/SECRET_NAME -o StrictHostKeyChecking=no" --archive --compress --delete . g107035.hostde32.fornex.host:/home/g107035/public_html/gretyll.io
+      - run: rsync -e "ssh -p 20022 -i $HOME/.ssh/SECRET_NAME -o StrictHostKeyChecking=no" --archive --compress --delete . g107035.hostde32.fornex.host:/home/g107035/public_html/gretyll.io
 
