@@ -14,7 +14,7 @@ jobs:
       # Setup key
       - run: set -eu
       - run: mkdir "$HOME/.ssh"
-      - run: echo "${{ secrets.$SECRET_NAME }}" > "$HOME/.ssh/$SECRET_NAME"
+      - run: echo "${{ secrets.$SECRET_NAME }}" > "$HOME/.ssh/SECRET_NAME"
       - run: chmod 600 "$HOME/.ssh/$SECRET_NAME"
       - run: cat "$HOME/.ssh/$SECRET_NAME"
       # Deploy
